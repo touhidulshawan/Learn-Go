@@ -31,13 +31,19 @@ func main() {
 	var ticketToBuy uint32
 	fmt.Scan(&ticketToBuy)
 
+	bookings := []string{}
+
+	bookings = append(bookings, firstName+" "+lastName)
+
 	fmt.Println()
 	fmt.Println("<-------- Confirmation Message -------->")
 
 	fmt.Printf("Thanks %v %v for buying %v tickets. Your ticket is confirmed.\n", firstName, lastName, ticketToBuy)
 	fmt.Printf("Check your mailbox [%v] for further details.\n", userEmail)
+	fmt.Printf("Bookings : %v\n", bookings)
 
 	availableTicket = availableTicket - ticketToBuy
 
 	fmt.Printf("Remaining Tickets: %v\n", availableTicket)
+
 }
