@@ -35,15 +35,20 @@ func main() {
 		var ticketToBuy uint32
 		fmt.Scan(&ticketToBuy)
 
-		bookings = append(bookings, firstName+" "+lastName)
+		if ticketToBuy <= availableTicket {
+			availableTicket = availableTicket - ticketToBuy
+			bookings = append(bookings, firstName+" "+lastName)
+
+		} else {
+			fmt.Printf("Invalid tickets number. We have only %v tickets available\n", availableTicket)
+			continue
+		}
 
 		fmt.Println()
 		fmt.Println("<-------- Confirmation Message -------->")
 
 		fmt.Printf("Thanks %v %v for buying %v tickets.\n", firstName, lastName, ticketToBuy)
 		fmt.Printf("Check your mailbox [%v] for further details.\n", userEmail)
-
-		availableTicket = availableTicket - ticketToBuy
 
 		// print only first name of bookins user
 		// like [Touhidul Shawan] we only use Touhidul
@@ -55,6 +60,11 @@ func main() {
 		}
 		fmt.Printf("Bookings : %v\n", firstNames)
 		fmt.Println("-------------------------------------------------")
+
+		if availableTicket == 0 {
+			fmt.Printf("All Tickets Sold Out For %v Conference\n", conferenceName)
+			break
+		}
 
 	}
 }
