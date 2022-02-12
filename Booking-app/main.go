@@ -18,14 +18,12 @@ func greetUser() {
 }
 
 // get all necessary information from user to book tickets
-func getUserInformation() (userFullName string, userEmail string, ticketToBuy uint32) {
+func getUserInformation() (firstName string, lastName string, userEmail string, ticketToBuy uint32) {
 
 	fmt.Print("Enter your first name: ")
-	var firstName string
 	fmt.Scan(&firstName)
 
 	fmt.Print("Enter your last name: ")
-	var lastName string
 	fmt.Scan(&lastName)
 
 	fmt.Print("Enter your email: ")
@@ -34,15 +32,13 @@ func getUserInformation() (userFullName string, userEmail string, ticketToBuy ui
 	fmt.Print("How many tickets you want to buy: ")
 	fmt.Scan(&ticketToBuy)
 
-	userFullName = firstName + " " + lastName
-
 	return
 }
 
-func ticketConfirmationMessage(fullName string, userEmail string, ticketToBuy uint32) {
+func ticketConfirmationMessage(firstName string, lastName string, userEmail string, ticketToBuy uint32) {
 
 	fmt.Println("\n<-------- Confirmation Message -------->")
-	fmt.Printf("Thanks %v for buying %v tickets.\n", fullName, ticketToBuy)
+	fmt.Printf("Thanks %v %v for buying %v tickets.\n", firstName, lastName, ticketToBuy)
 	fmt.Printf("Check your mailbox [%v] for further details.\n", userEmail)
 }
 
@@ -60,27 +56,32 @@ func getFirstNames() []string {
 	return firstNames
 }
 
+
 func main() {
 
 	for {
 		greetUser()
 
-		var userFullName, userEmail, ticketToBuy = getUserInformation()
+		firstName, lastName, userEmail, ticketToBuy := getUserInformation()
+		isValidName, isValidEmail, isValidTicketNumber := userInputValidation(firstName, lastName, userEmail, ticketToBuy)
 
-		if ticketToBuy <= availableTicket {
+		if isValidName && isValidEmail && isValidTicketNumber {
 			availableTicket = availableTicket - ticketToBuy
-			bookings = append(bookings, userFullName)
+			bookings = append(bookings, firstName+" "+lastName)
+			ticketConfirmationMessage(firstName, lastName, userEmail, ticketToBuy)
 
+			// print all bookings
+			firstNames := getFirstNames()
+			fmt.Printf("All Bookings : %v\n", firstNames)
 		} else {
-			fmt.Printf("Invalid tickets number. We have only %v tickets available\n", availableTicket)
-			continue
+			if !isValidName {
+		fmt.Println("Error: First Name or Last Name is too short!")
+			} else if !isValidEmail {
+		fmt.Println("Error: Invalid Email! Does not contain @ symbol")
+			} else if !isValidTicketNumber {
+		fmt.Printf("Error: Invalid number of Tickets to buy. Available Tickets: %v\n", availableTicket)
+			}
 		}
-
-		ticketConfirmationMessage(userFullName, userEmail, ticketToBuy)
-
-		// print all bookings
-		firstNames := getFirstNames()
-		fmt.Printf("All Bookings : %v\n", firstNames)
 
 		if availableTicket == 0 {
 			fmt.Printf("All Tickets Sold Out For %v Conference\n", conferenceName)
