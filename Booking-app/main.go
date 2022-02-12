@@ -41,7 +41,7 @@ func ticketConfirmationMessage(fullName string, userEmail string, ticketToBuy ui
 	fmt.Printf("Check your mailbox [%v] for further details.\n", userEmail)
 }
 
-func allBookings(bookings []string) {
+func getFirstNames(bookings []string) []string {
 
 	// print only first name of bookins user
 	// like [Touhidul Shawan] we only use Touhidul
@@ -51,8 +51,8 @@ func allBookings(bookings []string) {
 		var names = strings.Fields(booking)
 		firstNames = append(firstNames, names[0])
 	}
-	fmt.Printf("Bookings : %v\n", firstNames)
 
+	return firstNames
 }
 
 func main() {
@@ -79,7 +79,8 @@ func main() {
 		ticketConfirmationMessage(userFullName, userEmail, ticketToBuy)
 
 		// print all bookings
-		allBookings(bookings)
+		firstNames := getFirstNames(bookings)
+		fmt.Printf("All Bookings : %v\n", firstNames)
 
 		if availableTicket == 0 {
 			fmt.Printf("All Tickets Sold Out For %v Conference\n", conferenceName)
