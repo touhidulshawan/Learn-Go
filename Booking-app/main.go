@@ -5,8 +5,13 @@ import (
 	"strings"
 )
 
+var conferenceName = "Love Yourself"
+var availableTicket uint32 = 25
+var bookings = []string{}
+
 // greet the user
-func greetUser(conferenceName string, availableTicket uint32) {
+func greetUser() {
+	fmt.Println("Welcome to our Booking App")
 	fmt.Printf("Buy tickets for current conference: %v\n", conferenceName)
 	fmt.Printf("Available Tickets : %v\n", availableTicket)
 	fmt.Println("----------------------------------------")
@@ -41,7 +46,7 @@ func ticketConfirmationMessage(fullName string, userEmail string, ticketToBuy ui
 	fmt.Printf("Check your mailbox [%v] for further details.\n", userEmail)
 }
 
-func getFirstNames(bookings []string) []string {
+func getFirstNames() []string {
 
 	// print only first name of bookins user
 	// like [Touhidul Shawan] we only use Touhidul
@@ -56,14 +61,9 @@ func getFirstNames(bookings []string) []string {
 }
 
 func main() {
-	fmt.Println("Welcome to our Booking App")
-
-	conferenceName := "Love Yourself"
-	var availableTicket uint32 = 25
-	bookings := []string{}
 
 	for {
-		greetUser(conferenceName, availableTicket)
+		greetUser()
 
 		var userFullName, userEmail, ticketToBuy = getUserInformation()
 
@@ -79,7 +79,7 @@ func main() {
 		ticketConfirmationMessage(userFullName, userEmail, ticketToBuy)
 
 		// print all bookings
-		firstNames := getFirstNames(bookings)
+		firstNames := getFirstNames()
 		fmt.Printf("All Bookings : %v\n", firstNames)
 
 		if availableTicket == 0 {
