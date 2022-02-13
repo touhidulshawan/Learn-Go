@@ -3,12 +3,18 @@ package main
 import (
 	"booking-app/validation"
 	"fmt"
-	"strconv"
 )
 
 var conferenceName = "Love Yourself"
 var availableTicket uint32 = 25
-var bookings = make([]map[string]string, 0)
+var bookings = make([]UserData, 0)
+
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint32
+}
 
 // greet the user
 func greetUser() {
@@ -39,11 +45,12 @@ func getUserInformation() (firstName string, lastName string, userEmail string, 
 func bookingTicket(firstName string, lastName string, userEmail string, ticketToBuy uint32) {
 	availableTicket = availableTicket - ticketToBuy
 
-	var userData = make(map[string]string)
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = userEmail
-	userData["numberOfTickets"] = strconv.FormatUint(uint64(ticketToBuy), 10)
+	var userData = UserData{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           userEmail,
+		numberOfTickets: ticketToBuy,
+	}
 
 	bookings = append(bookings, userData)
 
@@ -51,7 +58,7 @@ func bookingTicket(firstName string, lastName string, userEmail string, ticketTo
 	fmt.Printf("Thanks %v %v for buying %v tickets.\n", firstName, lastName, ticketToBuy)
 	fmt.Printf("Check your mailbox [%v] for further details.\n", userEmail)
 	fmt.Println("---------------------------------------------")
-	fmt.Printf("List of bookings: %v", bookings)
+	fmt.Printf("List of bookings: %v\n", bookings)
 }
 
 func getFirstNames() []string {
@@ -61,7 +68,7 @@ func getFirstNames() []string {
 	// Filed splits the string with empty whitespace here
 	firstNames := []string{}
 	for _, booking := range bookings {
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
 	}
 
 	return firstNames
