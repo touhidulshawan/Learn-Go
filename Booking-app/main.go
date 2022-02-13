@@ -3,12 +3,12 @@ package main
 import (
 	"booking-app/validation"
 	"fmt"
-	"strings"
+	"strconv"
 )
 
 var conferenceName = "Love Yourself"
 var availableTicket uint32 = 25
-var bookings = []string{}
+var bookings = make([]map[string]string, 0)
 
 // greet the user
 func greetUser() {
@@ -36,11 +36,22 @@ func getUserInformation() (firstName string, lastName string, userEmail string, 
 	return
 }
 
-func ticketConfirmationMessage(firstName string, lastName string, userEmail string, ticketToBuy uint32) {
+func bookingTicket(firstName string, lastName string, userEmail string, ticketToBuy uint32) {
+	availableTicket = availableTicket - ticketToBuy
+
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = userEmail
+	userData["numberOfTickets"] = strconv.FormatUint(uint64(ticketToBuy), 10)
+
+	bookings = append(bookings, userData)
 
 	fmt.Println("\n<-------- Confirmation Message -------->")
 	fmt.Printf("Thanks %v %v for buying %v tickets.\n", firstName, lastName, ticketToBuy)
 	fmt.Printf("Check your mailbox [%v] for further details.\n", userEmail)
+	fmt.Println("---------------------------------------------")
+	fmt.Printf("List of bookings: %v", bookings)
 }
 
 func getFirstNames() []string {
@@ -50,8 +61,7 @@ func getFirstNames() []string {
 	// Filed splits the string with empty whitespace here
 	firstNames := []string{}
 	for _, booking := range bookings {
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
+		firstNames = append(firstNames, booking["firstName"])
 	}
 
 	return firstNames
@@ -67,9 +77,7 @@ func main() {
 			validation.UserInputValidation(firstName, lastName, userEmail, ticketToBuy, availableTicket)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
-			availableTicket = availableTicket - ticketToBuy
-			bookings = append(bookings, firstName+" "+lastName)
-			ticketConfirmationMessage(firstName, lastName, userEmail, ticketToBuy)
+			bookingTicket(firstName, lastName, userEmail, ticketToBuy)
 
 			// print all bookings
 			firstNames := getFirstNames()
