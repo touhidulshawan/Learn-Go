@@ -3,6 +3,7 @@ package main
 import (
 	"booking-app/validation"
 	"fmt"
+	"time"
 )
 
 var conferenceName = "Love Yourself"
@@ -54,13 +55,9 @@ func bookingTicket(firstName string, lastName string, userEmail string, ticketTo
 	}
 
 	bookings = append(bookings, userData)
-
-	fmt.Println("\n<-------- Confirmation Message -------->")
-	fmt.Printf("Thanks %v %v for buying %v tickets.\n", firstName, lastName, ticketToBuy)
-	fmt.Printf("Check your mailbox [%v] for further details.\n", userEmail)
-	fmt.Println("---------------------------------------------")
 	fmt.Printf("List of bookings: %v\n", bookings)
 }
+
 // get all firstname of those who booked tickets
 func getFirstNames() []string {
 
@@ -75,6 +72,16 @@ func getFirstNames() []string {
 	return firstNames
 }
 
+// function to send ticket after 10 second
+
+func sendTicket(firstName string, lastName string, email string, ticketsToBuy uint32) {
+	time.Sleep(10 * time.Second)
+	ticket := fmt.Sprintf("%v tickets for %v %v", ticketsToBuy, firstName, lastName)
+	fmt.Println("----------------------------------")
+	fmt.Printf("Tickets sent : %v to user : %v\n", ticket, email)
+	fmt.Println("----------------------------------")
+}
+
 func main() {
 
 	for {
@@ -86,6 +93,7 @@ func main() {
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			bookingTicket(firstName, lastName, userEmail, ticketToBuy)
+			sendTicket(firstName, lastName, userEmail, ticketToBuy)
 
 			// print all bookings
 			firstNames := getFirstNames()
