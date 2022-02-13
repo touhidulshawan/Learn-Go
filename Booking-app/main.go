@@ -1,6 +1,7 @@
 package main
 
 import (
+	"booking-app/validation"
 	"fmt"
 	"strings"
 )
@@ -56,14 +57,14 @@ func getFirstNames() []string {
 	return firstNames
 }
 
-
 func main() {
 
 	for {
 		greetUser()
 
 		firstName, lastName, userEmail, ticketToBuy := getUserInformation()
-		isValidName, isValidEmail, isValidTicketNumber := userInputValidation(firstName, lastName, userEmail, ticketToBuy)
+		isValidName, isValidEmail, isValidTicketNumber :=
+			validation.UserInputValidation(firstName, lastName, userEmail, ticketToBuy, availableTicket)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			availableTicket = availableTicket - ticketToBuy
@@ -75,11 +76,11 @@ func main() {
 			fmt.Printf("All Bookings : %v\n", firstNames)
 		} else {
 			if !isValidName {
-		fmt.Println("Error: First Name or Last Name is too short!")
+				fmt.Println("Error: First Name or Last Name is too short!")
 			} else if !isValidEmail {
-		fmt.Println("Error: Invalid Email! Does not contain @ symbol")
+				fmt.Println("Error: Invalid Email! Does not contain @ symbol")
 			} else if !isValidTicketNumber {
-		fmt.Printf("Error: Invalid number of Tickets to buy. Available Tickets: %v\n", availableTicket)
+				fmt.Printf("Error: Invalid number of Tickets to buy. Available Tickets: %v\n", availableTicket)
 			}
 		}
 

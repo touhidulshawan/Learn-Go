@@ -1,8 +1,8 @@
-package main
+package validation 
 
 import "strings"
 
-func userInputValidation(firstName string, lastName string, userEmail string, ticketToBuy uint32) (bool, bool, bool) {
+func UserInputValidation(firstName string, lastName string, userEmail string, ticketToBuy uint32, availableTicket uint32) (bool, bool, bool) {
 	isValidName := len(firstName) >= 2 && len(lastName) >= 2
 	isValidEmail := strings.Contains(userEmail, "@")
 	isValidTicketNumber := ticketToBuy > 0 && ticketToBuy <= availableTicket
