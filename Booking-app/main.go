@@ -42,6 +42,7 @@ func getUserInformation() (firstName string, lastName string, userEmail string, 
 	return
 }
 
+// function to book ticket
 func bookingTicket(firstName string, lastName string, userEmail string, ticketToBuy uint32) {
 	availableTicket = availableTicket - ticketToBuy
 
@@ -60,7 +61,7 @@ func bookingTicket(firstName string, lastName string, userEmail string, ticketTo
 	fmt.Println("---------------------------------------------")
 	fmt.Printf("List of bookings: %v\n", bookings)
 }
-
+// get all firstname of those who booked tickets
 func getFirstNames() []string {
 
 	// print only first name of bookins user
