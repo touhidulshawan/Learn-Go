@@ -4,11 +4,14 @@ import (
 	"booking-app/validation"
 	"fmt"
 	"time"
+    "sync"
 )
 
 var conferenceName = "Love Yourself"
 var availableTicket uint32 = 25
 var bookings = make([]UserData, 0)
+
+var wg = sync.WaitGroup{}
 
 type UserData struct {
 	firstName       string
@@ -80,6 +83,7 @@ func sendTicket(firstName string, lastName string, email string, ticketsToBuy ui
 	fmt.Println("----------------------------------")
 	fmt.Printf("Tickets sent : %v to user : %v\n", ticket, email)
 	fmt.Println("----------------------------------")
+    wg.Done()
 }
 
 func main() {
@@ -93,7 +97,9 @@ func main() {
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 			bookingTicket(firstName, lastName, userEmail, ticketToBuy)
-			sendTicket(firstName, lastName, userEmail, ticketToBuy)
+
+            wg.Add(1)
+			go sendTicket(firstName, lastName, userEmail, ticketToBuy)
 
 			// print all bookings
 			firstNames := getFirstNames()
@@ -114,4 +120,5 @@ func main() {
 		}
 
 	}
+        wg.Wait()
 }
