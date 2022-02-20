@@ -25,6 +25,9 @@ func main() {
 	fmt.Println("Length of file content: ", length)
 	readFile("./programTextFile.txt")
 
+    // delete file
+    deleteFile("./programTextFile.txt")
+
 	// close the file after all operation done
 
 	defer file.Close()
@@ -37,6 +40,13 @@ func readFile(fileName string) {
 	checkNilError(err)
 
 	fmt.Println("File content:\n", string(data))
+}
+
+// delete a file
+
+func deleteFile(fileName string){
+    err := os.Remove(fileName)
+    checkNilError(err)
 }
 
 // error handle function to reuse
